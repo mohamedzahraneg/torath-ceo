@@ -30,7 +30,7 @@ main{max-width:1360px;margin:auto;padding:28px;display:flex;flex-direction:colum
 h1.pg{margin:0;font-family:var(--fd);font-size:28px;font-weight:600;line-height:1.3}.pgs{margin:4px 0 0;font-size:14px;color:var(--muted)}
 .sec{display:flex;flex-direction:column;gap:12px}.sh{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
 h2{margin:0;font-family:var(--fd);font-size:17px;font-weight:600;line-height:1.3}.sub{font-size:14px;color:var(--muted)}.sub b{color:var(--ink)}
-.kg{display:grid;gap:12px;grid-template-columns:repeat(var(--c,4),minmax(0,1fr))}@media screen and (max-width:1100px){.kg{grid-template-columns:repeat(min(var(--c,4),3),minmax(0,1fr))}}
+.kg{display:grid;gap:12px;grid-template-columns:repeat(var(--c,4),minmax(0,1fr))}@media screen and (max-width:1100px){.kg{grid-template-columns:repeat(var(--t,2),minmax(0,1fr))}.kg.odd>.k:last-child{grid-column:1/-1}}
 .k{min-width:0;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:4px}
 .kl{margin:0;font-size:14px;color:var(--muted)}.kv{margin:0;font-family:var(--fd);font-size:24px;font-weight:600;line-height:1.25;overflow-wrap:anywhere}.kv small{font-size:13px;font-weight:500;color:var(--muted);margin-inline-start:6px}
 .kn{margin:0;font-size:13px;color:var(--muted)}
@@ -160,7 +160,7 @@ function fill(){var keys=D.fin.filter(function(r){return r[2]!==''&&r[2]!==null}
 function prev(list){if(M==='all')return null;for(var i=0;i<list.length;i++)if(String(list[i][1])===M)return i>0?list[i-1]:null;return null}
 function dl(cur,old,good,pts){if(old===null||old===undefined||old===''||Number(old)===0&&!pts)return '';cur=Number(cur)||0;old=Number(old)||0;var v=pts?(cur-old)*100:(old?(cur-old)/Math.abs(old)*100:0);if(Math.abs(v)<0.05)return '<p class="d flat"><span class="dm"></span>زي الشهر اللي فات</p>';var upg=(v>0)===(good!==false);return '<p class="d '+(upg?'up':'dn')+'"><span aria-hidden="true">'+(v>0?'▲':'▼')+'</span><span class="num">'+Math.abs(v).toFixed(1)+(pts?'':'%')+'</span>'+(pts?' نقطة':'')+'<span class="lg2"> عن الشهر اللي فات</span></p>'}
 function kpi(l,v,note,extra,cls){return '<div class="k"><p class="kl">'+l+'</p><p class="kv'+(cls?' '+cls:'')+'">'+v+'</p>'+(note?'<p class="kn">'+note+'</p>':'')+(extra||'')+'</div>'}
-function grid(t,items,sub){var c=items.length,k=c<=5?c:c%4===0?4:c%3===0?3:4;return '<section class="sec"><div class="sh"><h2>'+t+'</h2>'+(sub?'<span class="sub">'+sub+'</span>':'')+'</div><div class="kg" style="--c:'+k+'">'+items.join('')+'</div></section>'}
+function grid(t,items,sub){var c=items.length,k=c<=5?c:c%4===0?4:c%3===0?3:4,tb=c%3===0?3:c===1?1:2;return '<section class="sec"><div class="sh"><h2>'+t+'</h2>'+(sub?'<span class="sub">'+sub+'</span>':'')+'</div><div class="kg'+(tb===2&&c%2?' odd':'')+'" style="--c:'+k+';--t:'+tb+'">'+items.join('')+'</div></section>'}
 function pbar(p,col,lbl){p=Math.max(0,Math.min(1,Number(p)||0));return '<div class="pb" role="img" aria-label="'+esc(lbl||'')+'"><i style="width:'+(p*100).toFixed(1)+'%;background:'+col+'"></i></div>'}
 function shbar(p){p=Math.max(0,Math.min(1,Number(p)||0));return '<div class="sh2"><div class="tr"><i style="width:'+(p*100).toFixed(1)+'%"></i></div><span>'+pc(p)+'</span></div>'}
 function alert(cls,t){return '<p class="alert '+cls+'"><span class="dm"></span><span>'+t+'</span></p>'}
