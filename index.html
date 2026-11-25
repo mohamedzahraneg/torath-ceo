@@ -126,7 +126,7 @@ dialog::backdrop{background:rgba(27,26,61,.45)}
 <button type="button" class="btn pr" id="pdf" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6"/><path d="m9 14 3 3 3-3"/></svg><span class="tx">تقرير </span>PDF</button>
 </div></div>
 <nav class="tabs" aria-label="أقسام الصفحة">
-<button type="button" data-p="fin" aria-current="page">الحسابات</button><button type="button" data-p="bd">شركات الشحن</button><button type="button" data-p="day">يومي</button><button type="button" data-p="prod">المنتجات</button><button type="button" data-p="inv">المخزن</button><button type="button" data-p="mk">المسوقين</button>
+<button type="button" data-p="fin" aria-current="page">الحسابات</button><button type="button" data-p="bd">شركات الشحن</button><button type="button" data-p="day">يومي</button><button type="button" data-p="prod">المنتجات</button><button type="button" data-p="inv">المخزن</button><button type="button" data-p="mk">المسوقين</button><button type="button" data-p="mkr">تقرير المسوقين</button>
 <span class="live"><span class="dm"></span><span id="up">جاري التحميل…</span></span>
 </nav>
 </header>
@@ -141,7 +141,7 @@ dialog::backdrop{background:rgba(27,26,61,.45)}
 <div class="fld"><label for="dm">الشهر</label><select id="dm"></select></div>
 <fieldset id="dsec"><legend>الأقسام</legend><div class="chk">
 <label><input type="checkbox" name="s" value="fin" checked>الحسابات</label><label><input type="checkbox" name="s" value="bd" checked>شركات الشحن</label>
-<label><input type="checkbox" name="s" value="day" checked>يومي</label><label><input type="checkbox" name="s" value="prod" checked>المنتجات</label><label><input type="checkbox" name="s" value="inv" checked>المخزن</label><label><input type="checkbox" name="s" value="mk" checked>المسوقين</label></div></fieldset>
+<label><input type="checkbox" name="s" value="day" checked>يومي</label><label><input type="checkbox" name="s" value="prod" checked>المنتجات</label><label><input type="checkbox" name="s" value="inv" checked>المخزن</label><label><input type="checkbox" name="s" value="mk" checked>المسوقين</label><label><input type="checkbox" name="s" value="mkr" checked>تقرير المسوقين</label></div></fieldset>
 <p class="note"><span class="dm"></span><span>بيتعمل على جهازك، ومفيش بيانات بتطلع لأي حتة. الأرقام هي نفس اللي على الشاشة. في نافذة الطباعة اختار «حفظ كـ PDF».</span></p>
 <div class="ft"><button type="button" class="btn sc" id="dlgc">إلغاء</button><button type="submit" class="btn pr" value="ok">طلّع الـPDF</button></div>
 </form></dialog>
@@ -150,7 +150,7 @@ dialog::backdrop{background:rgba(27,26,61,.45)}
 var API = 'https://darkslategray-turtle-450350.hostingersite.com/webhook/torath-dash';
 var QS = new URLSearchParams(location.hash.slice(1)), TOK = QS.get('k') || new URLSearchParams(location.search).get('k') || '', D = null, P = 'fin', M = null, PM = 'd';
 try{if(TOK)localStorage.setItem('torath-dash-k',TOK);else TOK=localStorage.getItem('torath-dash-k')||''}catch(e){}
-var NAMES = {fin:'الحسابات', bd:'شركات الشحن', day:'يومي', prod:'المنتجات', inv:'المخزن', mk:'المسوقين'};
+var NAMES = {fin:'الحسابات', bd:'شركات الشحن', day:'يومي', prod:'المنتجات', inv:'المخزن', mk:'المسوقين', mkr:'تقرير المسوقين'};
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function n(v){v=Number(v)||0;return '<span class="num">'+Math.round(v).toLocaleString('en-US')+'</span>'}
 function ns(v){v=Number(v)||0;var s=Math.round(v).toLocaleString('en-US');return '<span class="num">'+(v<0?'−'+s.replace('-',''):s)+'</span>'}
@@ -306,19 +306,51 @@ function mkVs(S,L,f,e){var a=S.karim,b=S.ahmed;if(!a||!b||!(a[0]+a[2])||!(b[0]+b
  var lead=wA===wB?'متعادلين':(wA>wB?NA:NB)+' متقدم في '+Math.max(wA,wB)+' من '+(wA+wB)+' بنود';
  return '<section class="pn"><div class="sh"><div><h2>تحليل الأداء: كريم وعساف</h2><p class="pgs" style="font-size:13px;margin:2px 0 0">'+(f===e?dlab(f):dlab(f)+' لحد '+dlab(e))+' · الأرقام نفسها اللي تحت</p></div><span class="pill '+(wA===wB?'wn':'ok')+'"><span class="dm"></span>'+lead+'</span></div><ul class="rsum" style="margin:6px 0 0">'+I.map(function(x){return '<li><span class="dm" style="color:'+x[0]+'"></span><span>'+x[1]+'</span></li>'}).join('')+'</ul></section>'
   +'<section class="sec"><div class="sh"><h2>وجهاً لوجه</h2></div><div class="tw"><table class="t"><thead><tr><th scope="col" class="pin">البند</th><th scope="col" class="e">كريم</th><th scope="col" class="e">عساف</th><th scope="col">الأحسن</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>'+wt}
-function mkSec(){var R=D.mk||[];if(!R.length)return '<p class="msg">بيانات المسوقين لسه بتتجهز، ارجع بعد 5 دقايق</p>';
- var rg=mkRange(),f=rg[0],e=rg[1],L=R.filter(function(x){return x[0]>=f&&x[0]<=e}),S={},AD={},DY={},T=[0,0,0,0,0,0,0,0,0];
- MKO.forEach(function(k){S[k]=[0,0,0,0,0,0,0,0,0]});
- L.forEach(function(x){var k=MKO.indexOf(x[1])<0?'other':x[1],o=S[k];for(var i=0;i<9;i++){o[i]+=Number(x[i+3])||0;T[i]+=Number(x[i+3])||0}
+function mkSlice(){var R=D.mk||[],rg=mkRange(),f=rg[0],e=rg[1],L=R.filter(function(x){return x[0]>=f&&x[0]<=e}),S={},AD={},DY={},T=[0,0,0,0,0,0,0,0,0,0];
+ MKO.forEach(function(k){S[k]=[0,0,0,0,0,0,0,0,0,0]});
+ L.forEach(function(x){var k=MKO.indexOf(x[1])<0?'other':x[1],o=S[k];for(var i=0;i<10;i++){o[i]+=Number(x[i+3])||0;T[i]+=Number(x[i+3])||0}
   if(x[2]){var ak=k+'|'+x[2],a=AD[ak]||(AD[ak]=[k,x[2],0,0,0,0,0,0]);a[2]+=+x[3]||0;a[3]+=+x[4]||0;a[4]+=+x[5]||0;a[5]+=+x[6]||0;a[6]+=+x[8]||0;a[7]+=+x[7]||0}
   var dy=DY[x[0]]||(DY[x[0]]={});var q=dy[k]||(dy[k]=[0,0,0]);q[0]+=+x[3]||0;q[1]+=+x[5]||0;q[2]+=+x[6]||0});
- var ks=MKO.filter(function(k){return S[k].some(function(v){return v})}),mn=ks.filter(function(k){return k==='karim'||k==='ahmed'});
- var P=[['t','النهارده'],['y','امبارح'],['w','الأسبوع ده'],['7','آخر 7 أيام'],['m','الشهر ده'],['pm','الشهر اللي فات'],['c','من / إلى']];
- var h=head('المسوقين','كل طلب محسوب لمسوق واحد: آخر إعلان العميل داس عليه قبل ما يطلب. اتطلب بيوم الطلب، واتسلّم ورجع واتلغى بيوم ما حصل.');
- h+='<section class="sec"><div class="sh" style="flex-wrap:wrap;gap:10px"><div class="seg mkp" role="group" aria-label="الفترة" style="flex-wrap:wrap">'+P.map(function(p){return '<button type="button" data-k="'+p[0]+'" aria-pressed="'+(MKP===p[0])+'">'+p[1]+'</button>'}).join('')+'</div><div class="mkd" style="display:flex;gap:8px;align-items:center;font-size:14px"><label for="mkf">من</label><input type="date" id="mkf" value="'+f+'" min="2026-11-01"><label for="mkt">إلى</label><input type="date" id="mkt" value="'+e+'" min="2026-11-01"></div></div><p class="pgs" style="font-size:13px;margin:6px 0 0">'+(f===e?dlab(f):dlab(f)+' لحد '+dlab(e))+'</p></section>';
- var rate=function(o){var c=o[2]+o[4]+o[5];return c?o[2]/c:0},cost=function(o){return o[7]?n(o[7]/Math.max(o[2],1)):'—'};
- h+=mkVs(S,L,f,e);
+ var ks=MKO.filter(function(k){return S[k].some(function(v){return v})});
+ return {f:f,e:e,L:L,S:S,AD:AD,DY:DY,T:T,ks:ks,mn:ks.filter(function(k){return k==='karim'||k==='ahmed'})}}
+function mkBar(f,e){var P=[['t','النهارده'],['y','امبارح'],['w','الأسبوع ده'],['7','آخر 7 أيام'],['m','الشهر ده'],['pm','الشهر اللي فات'],['c','من / إلى']];
+ return '<section class="sec"><div class="sh" style="flex-wrap:wrap;gap:10px"><div class="seg mkp" role="group" aria-label="الفترة" style="flex-wrap:wrap">'+P.map(function(p){return '<button type="button" data-k="'+p[0]+'" aria-pressed="'+(MKP===p[0])+'">'+p[1]+'</button>'}).join('')+'</div><div class="mkd" style="display:flex;gap:8px;align-items:center;font-size:14px"><label for="mkf">من</label><input type="date" id="mkf" value="'+f+'" min="2026-11-01"><label for="mkt">إلى</label><input type="date" id="mkt" value="'+e+'" min="2026-11-01"></div></div><p class="pgs" style="font-size:13px;margin:6px 0 0">'+(f===e?dlab(f):dlab(f)+' لحد '+dlab(e))+'</p></section>'}
+function mkCards(S,mn){var h='',rate=function(o){var c=o[2]+o[4]+o[5];return c?o[2]/c:0},cost=function(o){return o[7]?n(o[7]/Math.max(o[2],1)):'—'};
  mn.forEach(function(k){var o=S[k],sp=o[7];h+=grid(MKN[k],[kpi('اتطلب',n(o[0]),'قيمتها '+n(o[1])+' ج'),kpi('اتسلّم',n(o[3])+'<small>ج.م</small>',n(o[2])+' طلب'),kpi('رجع / اتلغى',n(o[5])+' / '+n(o[4])),kpi('نسبة التسليم',pc(rate(o)),'من اللي اتقفل في الفترة'),kpi('مصروف الإعلانات',sp?n(sp)+'<small>ج.م</small>':'—',sp?'تكلفة الطلب '+n(sp/Math.max(o[0],1))+' ج':'لسه متسجلش'),kpi('العائد على الإعلان',sp?'<span class="num">'+(o[3]/sp).toFixed(1)+'x</span>':'—',sp?'تكلفة المسلّم '+cost(o)+' ج':'')])});
+ return h}
+// ===== تقرير المسوقين (25/11): صفحة منفصلة — الإحصائيات، تحليل الأداء، ميتا (الضغط بس)، وكل منتج بصرفه وعائده =====
+function mkRep(){if(!(D.mk||[]).length)return '<p class="msg">بيانات المسوقين لسه بتتجهز، ارجع بعد 5 دقايق</p>';
+ var Z=mkSlice(),f=Z.f,e=Z.e,S=Z.S,mn=Z.mn;
+ var h=head('تقرير المسوقين','أداء كريم وعساف جنب بعض لأي فترة: الإحصائيات، والتحليل، وأرقام ميتا، وكل منتج بصرفه وعائده.');
+ h+=mkBar(f,e)+mkCards(S,mn)+mkVs(S,Z.L,f,e);
+ // ميتا: اللي داسوا بس جنب الكل
+ h+='<section class="sec"><div class="sh"><h2>ميتا مقابل الطلبات الحقيقية</h2><span class="sub">«من الضغط» = اللي داسوا على الإعلان واشتروا خلال 7 أيام</span></div><div class="tw"><table class="t"><thead><tr><th scope="col" class="pin">المسوق</th><th scope="col" class="e">طلبات حقيقية</th><th scope="col" class="e">ميتا من الضغط</th><th scope="col" class="e">عملاء مشتركين</th><th scope="col" class="e">ميتا الكل</th><th scope="col" class="e">شافوا بس</th></tr></thead><tbody>'
+  +mn.map(function(k){var o=S[k],all=o[8],cl=o[9];return '<tr><td class="b pin">'+MKN[k]+'</td><td class="e b">'+n(o[0])+'</td><td class="e">'+(all?n(cl):'—')+'</td><td class="e">'+(all?ns(cl-o[0]):'—')+'</td><td class="e">'+(all?n(all):'—')+'</td><td class="e">'+(all?n(all-cl):'—')+'</td></tr>'}).join('')
+  +'</tbody></table></div><p class="pgs" style="font-size:13px;margin:6px 0 0">«عملاء مشتركين» = اللي ميتا حسبتهم للمسوق من الضغط وزيادة عن طلباته الحقيقية: غالباً داسوا على إعلانه واشتروا في الآخر من رابط المسوق التاني أو من غير رابط. «شافوا بس» ميتا بتعدّهم وإحنا لأ.</p></section>';
+ // كل منتج
+ var PR=(D.mkp||[]).filter(function(x){return x[0]>=f&&x[0]<=e}),G={},M={};
+ PR.forEach(function(x){if(!(x[1]==='karim'||x[1]==='ahmed'))return;var g=(G[x[1]]||(G[x[1]]={}))[x[2]]||(G[x[1]][x[2]]=[0,0,0,0,0,0,0,0,0]);for(var i=0;i<9;i++)g[i]+=Number(x[i+3])||0;var m=(M[x[2]]||(M[x[2]]={}))[x[1]]||(M[x[2]][x[1]]=[0,0,0,0,0,0,0,0,0]);for(i=0;i<9;i++)m[i]+=Number(x[i+3])||0});
+ var NOP=/^(حملة من غير منتج|كتالوج)/,UNS={};
+ mn.forEach(function(k){var P=G[k]||{},a=0,u=0;Object.keys(P).forEach(function(p){a+=P[p][6];if(NOP.test(p))u+=P[p][6]});UNS[k]=a?u/a:0});
+ mn.forEach(function(k){var P=G[k]||{},ps=Object.keys(P),sp=ps.reduce(function(a,p){return a+P[p][6]},0);if(!ps.length)return;
+  ps.sort(function(a,b){return (NOP.test(a)?1:0)-(NOP.test(b)?1:0)||P[b][3]-P[a][3]});
+  var un=ps.filter(function(p){return NOP.test(p)}).reduce(function(a,p){return a+P[p][6]},0),T=[0,0,0,0,0,0,0,0,0];
+  h+='<section class="sec"><div class="sh"><h2>'+MKN[k]+': كل منتج</h2><span class="sub">القطع والقيمة بعد الخصم · المصروف من الحملة اللي اسمها فيه المنتج</span></div>';
+  if(sp&&un/sp>.2)h+=alert('wn',n(un)+' ج ('+pc(un/sp)+') من مصروف '+MKN[k]+' على حملات مش معروف هي لأنهي منتج، فتكلفة المنتجات تحت أقل من الحقيقة. الحل: '+MKN[k]+' يبدأ اسم كل حملة باسم المنتج، أو تكتب المنتج في تاب «ربط الحملات بالمنتجات».');
+  h+='<div class="tw"><table class="t"><thead><tr><th scope="col" class="st pin">المنتج</th><th scope="col" class="e">اتطلب (قطع)</th><th scope="col" class="e">اتسلّم (قطع)</th><th scope="col" class="e">قيمة المسلّم</th><th scope="col" class="e">رجع</th><th scope="col" class="e">مصروف الإعلانات</th><th scope="col">من مصروف '+MKN[k]+'</th><th scope="col" class="e">تكلفة القطعة المسلّمة</th><th scope="col" class="e">العائد</th><th scope="col" class="e">ميتا من الضغط</th></tr></thead><tbody>'
+   +ps.map(function(p){var o=P[p];for(var i=0;i<9;i++)T[i]+=o[i];var no=NOP.test(p);return '<tr'+(no?' class="m"':'')+'><td class="st b pin">'+esc(p)+'</td><td class="e">'+(no?'—':n(o[0]))+'</td><td class="e">'+(no?'—':n(o[2]))+'</td><td class="e b">'+(no?'—':n(o[3]))+'</td><td class="e">'+(no?'—':n(o[4]))+'</td><td class="e">'+(o[6]?n(o[6]):'—')+'</td><td>'+(sp&&o[6]?shbar(o[6]/sp):'')+'</td><td class="e">'+(o[6]&&o[2]?n(o[6]/o[2]):'—')+'</td><td class="e">'+(o[6]&&o[3]?'<span class="num">'+(o[3]/o[6]).toFixed(1)+'x</span>':'—')+'</td><td class="e">'+(o[8]?n(o[8]):'—')+'</td></tr>'}).join('')
+   +'<tr class="tot"><td class="pin">الإجمالي</td><td class="e">'+n(T[0])+'</td><td class="e">'+n(T[2])+'</td><td class="e">'+n(T[3])+'</td><td class="e">'+n(T[4])+'</td><td class="e">'+n(T[6])+'</td><td></td><td class="e">'+(T[6]&&T[2]?n(T[6]/T[2]):'—')+'</td><td class="e">'+(T[6]&&T[3]?'<span class="num">'+(T[3]/T[6]).toFixed(1)+'x</span>':'—')+'</td><td class="e">'+n(T[8])+'</td></tr></tbody></table></div></section>'});
+ // نفس المنتج: مين بيبيعه أرخص
+ var both=Object.keys(M).filter(function(p){return !NOP.test(p)&&M[p].karim&&M[p].ahmed&&(M[p].karim[2]||M[p].ahmed[2])});
+ if(both.length)h+='<section class="sec"><div class="sh"><h2>نفس المنتج: كريم وعساف</h2><span class="sub">تكلفة القطعة المسلّمة = مصروف حملات المنتج ÷ القطع المسلّمة</span></div>'+((UNS.karim>.2||UNS.ahmed>.2)?alert('wn','المقارنة دي هتبقى دقيقة لما كل حملات المسوقين تتربط بمنتج. دلوقتي '+(UNS.karim>.2?'كريم '+pc(UNS.karim):'')+(UNS.karim>.2&&UNS.ahmed>.2?' و':'')+(UNS.ahmed>.2?'عساف '+pc(UNS.ahmed):'')+' من مصروفه على حملات من غير منتج.'):'')+'<div class="tw"><table class="t"><thead><tr><th scope="col" class="st pin">المنتج</th><th scope="col" class="e">كريم اتسلّم</th><th scope="col" class="e">كريم تكلفة القطعة</th><th scope="col" class="e">عساف اتسلّم</th><th scope="col" class="e">عساف تكلفة القطعة</th><th scope="col">الأرخص</th></tr></thead><tbody>'
+  +both.map(function(p){var a=M[p].karim,b=M[p].ahmed,ca=a[6]&&a[2]?a[6]/a[2]:null,cb=b[6]&&b[2]?b[6]/b[2]:null,w=(UNS.karim>.2||UNS.ahmed>.2)?'<span class="pill wn"><span class="dm"></span>مش دقيق لسه</span>':ca!==null&&cb!==null?'<span class="pill '+(ca<cb?'ok':'inf')+'"><span class="dm"></span>'+(ca<cb?'كريم':'عساف')+'</span>':'<span class="sub">محتاج مصروف الاتنين</span>';return '<tr><td class="st b pin">'+esc(p)+'</td><td class="e">'+n(a[2])+'</td><td class="e">'+(ca!==null?n(ca):'—')+'</td><td class="e">'+n(b[2])+'</td><td class="e">'+(cb!==null?n(cb):'—')+'</td><td>'+w+'</td></tr>'}).join('')+'</tbody></table></div></section>';
+ return h}
+function mkSec(){var R=D.mk||[];if(!R.length)return '<p class="msg">بيانات المسوقين لسه بتتجهز، ارجع بعد 5 دقايق</p>';
+ var Z=mkSlice(),f=Z.f,e=Z.e,L=Z.L,S=Z.S,AD=Z.AD,DY=Z.DY,T=Z.T,ks=Z.ks,mn=Z.mn;
+ var h=head('المسوقين','كل طلب محسوب لمسوق واحد: آخر إعلان العميل داس عليه قبل ما يطلب. اتطلب بيوم الطلب، واتسلّم ورجع واتلغى بيوم ما حصل.');
+ h+=mkBar(f,e);
+ var rate=function(o){var c=o[2]+o[4]+o[5];return c?o[2]/c:0},cost=function(o){return o[7]?n(o[7]/Math.max(o[2],1)):'—'};
+ h+=mkCards(S,mn);
  var cols=ks.concat(['__t']),V=function(k){return k==='__t'?T:S[k]},NM=function(k){return k==='__t'?'الإجمالي':MKN[k]};
  var mt=[['اتطلب',function(o){return n(o[0])}],['قيمة المطلوب',function(o){return n(o[1])}],['اتسلّم',function(o){return n(o[2])}],['قيمة المسلّم',function(o){return n(o[3])}],['رجع',function(o){return n(o[5])}],['اتلغى',function(o){return n(o[4])}],['نسبة التسليم',function(o){return pc(rate(o))}],['لسه شغال من طلبات الفترة',function(o){return n(o[6])}],['مصروف الإعلانات',function(o){return o[7]?n(o[7]):'—'}],['تكلفة الطلب',function(o){return o[7]?n(o[7]/Math.max(o[0],1)):'—'}],['تكلفة الطلب المسلّم',function(o){return cost(o)}],['العائد على الإعلان',function(o){return o[7]?'<span class="num">'+(o[3]/o[7]).toFixed(1)+'x</span>':'—'}]];
  h+='<section class="sec"><div class="sh"><h2>المقارنة</h2></div><div class="tw"><table class="t"><thead><tr><th scope="col" class="pin">البند</th>'+cols.map(function(k){return '<th scope="col" class="e">'+NM(k)+'</th>'}).join('')+'</tr></thead><tbody>'+mt.map(function(m){return '<tr><td class="b pin">'+m[0]+'</td>'+cols.map(function(k){return '<td class="e'+(k==='__t'?' b':'')+'">'+m[1](V(k))+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div></section>';
@@ -328,7 +360,7 @@ function mkSec(){var R=D.mk||[];if(!R.length)return '<p class="msg">بيانات
  var ds=Object.keys(DY).sort().reverse();
  if(ds.length>1)h+='<section class="sec"><div class="sh"><h2>يوم بيوم</h2><span class="sub">اتطلب · اتسلّم · قيمة المسلّم</span></div><div class="tw"><table class="t"><thead><tr><th scope="col" class="pin">اليوم</th>'+ks.map(function(k){return '<th scope="col" class="e">'+MKN[k]+' اتطلب</th><th scope="col" class="e">'+MKN[k]+' اتسلّم</th><th scope="col" class="e">'+MKN[k]+' قيمة المسلّم</th>'}).join('')+'</tr></thead><tbody>'+ds.map(function(d){return '<tr><td class="b pin">'+dlab(d)+'</td>'+ks.map(function(k){var q=DY[d][k]||[0,0,0];return '<td class="e'+(q[0]?' b':' m')+'">'+n(q[0])+'</td><td class="e'+(q[1]?'':' m')+'">'+n(q[1])+'</td><td class="e'+(q[2]?'':' m')+'">'+n(q[2])+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table></div></section>';
  return h}
-function render(p){return p==='fin'?fin(row(D.fin,M)):p==='day'?day():p==='prod'?prodSec():p==='inv'?invSec():p==='mk'?mkSec():bd(row(D.bd,M))}
+function render(p){return p==='fin'?fin(row(D.fin,M)):p==='day'?day():p==='prod'?prodSec():p==='inv'?invSec():p==='mk'?mkSec():p==='mkr'?mkRep():bd(row(D.bd,M))}
 function foot(){return '<footer class="foot"><span>المصدر: شيت الطلبات، وكشف شركة الشحن، وشيتات المصاريف</span><span>آخر تحديث للأرقام: <span class="num">'+esc(D.at)+'</span></span></footer>'}
 function cardify(root){Array.prototype.forEach.call(root.querySelectorAll('.tw.cd table.t'),function(t){var hs=Array.prototype.map.call(t.querySelectorAll('thead th'),function(h){return h.textContent});Array.prototype.forEach.call(t.querySelectorAll('tbody tr'),function(tr){Array.prototype.forEach.call(tr.children,function(td,i){if(hs[i]&&!td.hasAttribute('data-l'))td.setAttribute('data-l',hs[i]);if(td.querySelector('.sh2'))td.classList.add('full')})})})}
 function draw(){fill();var o=document.getElementById('out');o.innerHTML=render(P)+foot();cardify(o);tint(o);document.getElementById('up').innerHTML='لايف · اتحدّث '+'<span class="num">'+esc(D.at)+'</span>';
