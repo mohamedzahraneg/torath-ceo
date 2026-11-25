@@ -28,7 +28,7 @@ nav.tabs button[aria-current=page]{color:var(--ink);font-weight:600;border-botto
 nav.tabs .live{margin-inline-start:auto;align-self:center;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);white-space:nowrap}
 nav.tabs .live .dm{color:var(--teal)}
 main{max-width:1360px;margin:auto;padding:28px;display:flex;flex-direction:column;gap:28px}
-h1.pg{margin:0;font-family:var(--fd);font-size:28px;font-weight:600;line-height:1.3}.pgs{margin:4px 0 0;font-size:14px;color:var(--muted)}
+h1.pg{margin:0;font-family:var(--fd);font-size:28px;font-weight:600;line-height:1.3}.pgs{margin:4px 0 0;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}h1.pg{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sec{display:flex;flex-direction:column;gap:12px}.sh{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
 h2{margin:0;font-family:var(--fd);font-size:17px;font-weight:600;line-height:1.3}.sub{font-size:14px;color:var(--muted)}.sub b{color:var(--ink)}
 .kg{display:grid;gap:12px;grid-template-columns:repeat(var(--c,4),minmax(0,1fr))}@media screen and (max-width:1100px){.kg{grid-template-columns:repeat(var(--t,2),minmax(0,1fr))}.kg.odd>.k:last-child{grid-column:1/-1}}
@@ -127,7 +127,7 @@ dialog::backdrop{background:rgba(27,26,61,.45)}
 <button type="button" class="btn pr" id="pdf" aria-haspopup="dialog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6"/><path d="m9 14 3 3 3-3"/></svg><span class="tx">تقرير </span>PDF</button>
 </div></div>
 <nav class="tabs" aria-label="أقسام الصفحة">
-<button type="button" data-p="fin" aria-current="page">الحسابات</button><button type="button" data-p="bd">شركات الشحن</button><button type="button" data-p="day">يومي</button><button type="button" data-p="prod">المنتجات</button><button type="button" data-p="inv">المخزن</button><button type="button" data-p="mk">المسوقين</button><button type="button" data-p="mkr">تقرير المسوقين</button>
+<button type="button" data-p="day" aria-current="page">يومي</button><button type="button" data-p="fin">الحسابات</button><button type="button" data-p="bd">شركات الشحن</button><button type="button" data-p="prod">المنتجات</button><button type="button" data-p="inv">المخزن</button><button type="button" data-p="mk">المسوقين</button><button type="button" data-p="mkr">تقرير المسوقين</button>
 <span class="live"><span class="dm"></span><span id="up">جاري التحميل…</span></span>
 </nav>
 </header>
@@ -141,15 +141,15 @@ dialog::backdrop{background:rgba(27,26,61,.45)}
 </fieldset>
 <div class="fld"><label for="dm">الشهر</label><select id="dm"></select></div>
 <fieldset id="dsec"><legend>الأقسام</legend><div class="chk">
-<label><input type="checkbox" name="s" value="fin" checked>الحسابات</label><label><input type="checkbox" name="s" value="bd" checked>شركات الشحن</label>
-<label><input type="checkbox" name="s" value="day" checked>يومي</label><label><input type="checkbox" name="s" value="prod" checked>المنتجات</label><label><input type="checkbox" name="s" value="inv" checked>المخزن</label><label><input type="checkbox" name="s" value="mk" checked>المسوقين</label><label><input type="checkbox" name="s" value="mkr" checked>تقرير المسوقين</label></div></fieldset>
+<label><input type="checkbox" name="s" value="day" checked>يومي</label><label><input type="checkbox" name="s" value="fin" checked>الحسابات</label><label><input type="checkbox" name="s" value="bd" checked>شركات الشحن</label>
+<label><input type="checkbox" name="s" value="prod" checked>المنتجات</label><label><input type="checkbox" name="s" value="inv" checked>المخزن</label><label><input type="checkbox" name="s" value="mk" checked>المسوقين</label><label><input type="checkbox" name="s" value="mkr" checked>تقرير المسوقين</label></div></fieldset>
 <p class="note"><span class="dm"></span><span>بيتعمل على جهازك، ومفيش بيانات بتطلع لأي حتة. الأرقام هي نفس اللي على الشاشة. في نافذة الطباعة اختار «حفظ كـ PDF».</span></p>
 <div class="ft"><button type="button" class="btn sc" id="dlgc">إلغاء</button><button type="submit" class="btn pr" value="ok">طلّع الـPDF</button></div>
 </form></dialog>
 <div id="rpt"></div>
 <script>
 var API = 'https://darkslategray-turtle-450350.hostingersite.com/webhook/torath-dash';
-var QS = new URLSearchParams(location.hash.slice(1)), TOK = QS.get('k') || new URLSearchParams(location.search).get('k') || '', D = null, P = 'fin', M = null, PM = 'd';
+var QS = new URLSearchParams(location.hash.slice(1)), TOK = QS.get('k') || new URLSearchParams(location.search).get('k') || '', D = null, P = 'day', M = null, PM = 'd';
 try{if(TOK)localStorage.setItem('torath-dash-k',TOK);else TOK=localStorage.getItem('torath-dash-k')||''}catch(e){}
 var NAMES = {fin:'الحسابات', bd:'شركات الشحن', day:'يومي', prod:'المنتجات', inv:'المخزن', mk:'المسوقين', mkr:'تقرير المسوقين'};
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
@@ -175,7 +175,7 @@ function head(t,s){return '<div><h1 class="pg">'+t+'</h1>'+(s?'<p class="pgs">'+
 var EXP=[['المرتبات','من شيت المرتبات',13],['رسوم شركات الشحن','من كشف شركة الشحن',11],['شحن متنوع',function(r){return '150 ج × '+n(r[10])+' شحنة'},12],['مصاريف التشغيل',function(r){return '60 ج × '+n(r[29])+' شحنة'},30],['رسائل واتساب',function(r){return '20 ج × '+n(r[19])+' طلب'},36],['الإعلانات','من شيت الإعلانات',14],['المكافآت','من شيت المكافآت',15],['مصاريف تانية','من شيت المصاريف',16]];
 function fin(r){if(!r)return '<p class="msg">مفيش بيانات للشهر ده</p>';var p=prev(D.fin)||{};
  var del=Number(r[2])||0,sales=Number(r[3])||0,exp=Number(r[17])||0,d20=Number(r[4])||0,rem=Number(r[18])||0,cf=Number(r[37])||0,use=sd(exp,d20),sr=Number(r[7])||0,sup=sd(r[6],r[5]);
- var h=head('حسابات '+esc(r[0]),'الفلوس محسوبة على شهر التسليم: أي طلب بيتحسب في الشهر اللي اتسلّم فيه.');
+ var h=head('حسابات '+esc(r[0]),'أي طلب بيتحسب في الشهر اللي اتسلّم فيه.');
  h+='<div class="hero"><section class="pn" aria-labelledby="h-rem"><div class="sh" style="align-items:flex-start"><div><h2 id="h-rem" style="font-family:var(--fs);font-size:15px;color:var(--muted)">المتبقي من الـ20%</h2><p class="big'+(rem<0?' neg':'')+'">'+ns(rem)+' <small>ج.م</small></p>'+dl(rem,p[18])+'</div>'+(rem<0?'<span class="pill bad"><span class="dm"></span>عجز</span>':'<span class="pill ok"><span class="dm"></span>'+pc(sd(rem,sales))+' من المبيعات ربح صافي</span>')+'</div>'
   +'<table class="eq"><tbody><tr><td>خصم 20% من المبيعات</td><td>'+n(d20)+'</td></tr><tr><td><span class="op neg">−</span>إجمالي المصاريف</td><td>'+n(exp)+'</td></tr><tr class="tl"><td><span class="op pos">+</span>فروق التحصيل <span class="sub">(رسوم الكاش 20 ج + التقريب، للـ20% بس)</span></td><td>'+n(cf)+'</td></tr><tr class="res"><td>= المتبقي</td><td>'+ns(rem)+'</td></tr></tbody></table>'
   +'<div><div class="pbl"><span>اتصرف '+pc(use)+' من الـ20%</span><span>'+(use<=1?'فاضل '+pc(1-use):'العجز '+pc(use-1))+'</span></div>'+pbar(use,use>1?'var(--red)':use>0.85?'var(--amber)':'var(--primary)','اتصرف من الـ20%')+'</div></section>';
@@ -212,7 +212,7 @@ function cashSec(){var C=D.cash;if(!C)return '';var deps=C.deps||[],nx=C.next||[
  if(rows.length)h+='<section class="sec"><div class="sh"><h2>التوريدات لتراث</h2><span class="sub">اليوم = يوم ما شركة الشحن بتحوّل لتراث · السجل بيبدأ من 22/11</span></div><div class="tw cd"><table class="t"><thead><tr><th scope="col">اليوم</th><th scope="col">الحالة</th><th scope="col" class="e">الشحنات</th><th scope="col" class="e">التحصيل</th><th scope="col" class="e">الرسوم</th><th scope="col" class="e">الصافي لتراث</th></tr></thead><tbody>'+rows.join('')+'</tbody></table></div></section>';
  return h}
 function bd(r){if(!r)return '<p class="msg">مفيش بيانات للشهر ده</p>';var f=row(D.fin,M),pb=prev(D.bd)||{};var fd=f?Number(f[32])||0:0,fr=f?Number(f[33])||0:0,fc=f?Number(f[34])||0:0,fcod=f?Number(f[35])||0:0,ffee=f?Number(f[12])||0:0,fs=fd+fr+fc;var td=(Number(r[3])||0)+fd,tr=(Number(r[4])||0)+fr,dep=sd(r[17],r[16]);
- var h=head('شركات الشحن — '+esc(r[0]),'«اتورّد» يعني الفلوس نزلت حساب تراث فعلاً، مش بس دخلت محفظة شركة الشحن.')+cashSec();
+ var h=head('شركات الشحن — '+esc(r[0]),'«اتورّد» = الفلوس نزلت حساب تراث فعلاً.')+cashSec();
  h+=grid('الإجمالي (شركات الشحن + شحن متنوع)',[kpi('شحنات اتبعتت',n((Number(r[2])||0)+fs)),kpi('اتسلّمت',n(td),'نسبة التسليم '+pc((td+tr)?td/(td+tr):0)),kpi('رجعت',n(tr)),kpi('التحصيل',n((Number(r[7])||0)+fcod)+'<small>ج.م</small>'),kpi('إجمالي مصاريف الشحن',n((Number(r[14])||0)+ffee)+'<small>ج.م</small>')]);
  h+='<section class="pn" aria-labelledby="h-net"><div class="sh"><h2 id="h-net">شركات الشحن: الصافي بعد الرسوم</h2><span style="font-family:var(--fd);font-size:26px;font-weight:600">'+n(r[16])+'</span></div>'
   +'<div class="stk" role="img" aria-label="اتورّد '+(dep*100).toFixed(1)+'%"><i style="width:'+(dep*100).toFixed(2)+'%;background:var(--teal)"></i><i style="width:'+((1-dep)*100).toFixed(2)+'%;background:var(--mark-gold)"></i></div>'
@@ -231,7 +231,7 @@ function chart(all){var A=all.slice().sort(function(a,b){return a[0]<b[0]?-1:1})
 function day(){var all=(D.days||[]).filter(function(x){return M==='all'||String(x[1])===M});if(!all.length)return '<p class="msg">مفيش بيانات يومية للشهر ده</p>';
  var S=function(i){return all.reduce(function(a,x){return a+(Number(x[i])||0)},0)},nd=all.length,t=all[0],y=all[1]||null,tk=(function(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)})(new Date());
  var dd=function(c,o,good){if(!y)return '';c=Number(c)||0;o=Number(o)||0;if(c===o)return '<p class="d flat"><span class="dm"></span>زي اليوم اللي قبله</p>';var u=c>o;return '<p class="d '+((u===(good!==false))?'up':'dn')+'"><span aria-hidden="true">'+(u?'▲':'▼')+'</span>'+n(Math.abs(c-o))+' عن '+dlab(y[0])+'</p>'};
- var h=head('يوم بيوم — '+esc(mlab()||'كل الشهور'),'كل يوم: اللي اتطلب، واللي اتشحن، واللي اتسلّم، واللي رجع أو اتلغى.');
+ var h=head('يوم بيوم — '+esc(mlab()||'كل الشهور'),'اتطلب، اتشحن، اتسلّم، رجع أو اتلغى.');
  h+=grid(dlab(t[0])+(t[0]===tk?' · النهارده لحد دلوقتي':''),[kpi('طلبات جديدة',n(t[2]),'قيمتها '+n(t[3])+' ج',dd(t[2],y&&y[2])),kpi('اتشحن',n(t[4]),'',dd(t[4],y&&y[4])),kpi('اتسلّم',n(t[6])+'<small>ج.م</small>',n(t[5])+' طلب',dd(t[6],y&&y[6])),kpi('رجع / اتلغى',n(t[7])+' / '+n(t[8])),kpi('رسوم الشحن',n(t[10])+'<small>ج.م</small>'),kpi('الإعلانات',n(t[9])+'<small>ج.م</small>')]);
  h+='<section class="pn"><div class="sh"><h2>قيمة اللي اتسلّم كل يوم</h2><span class="sub" style="display:flex;gap:14px;font-size:13px"><span><span class="dm" style="color:var(--primary)"></span> يوم في الشهر</span><span><span class="dm" style="color:var(--mark-gold)"></span> النهارده</span></span></div>'+chart(all)+'<p class="pgs" style="font-size:13px;margin:0">الأيام من اليمين لليسار. شركة الشحن بتسلّم على دفعات، فالأيام اللي فيها تسليم قليل بيعقبها يوم كبير.</p></section>';
  h+=grid('مجموع الفترة ('+n(nd)+' يوم)',[kpi('طلبات جديدة',n(S(2)),'متوسط <span class="num">'+(S(2)/nd).toFixed(1)+'</span> في اليوم'),kpi('اتشحن',n(S(4)),'متوسط <span class="num">'+(S(4)/nd).toFixed(1)+'</span> في اليوم'),kpi('اتسلّم',n(S(5)),'متوسط <span class="num">'+(S(5)/nd).toFixed(1)+'</span> في اليوم'),kpi('قيمة المسلّم',n(S(6))+'<small>ج.م</small>','متوسط '+n(S(6)/nd)+' في اليوم'),kpi('رجع',n(S(7))),kpi('اتلغى',n(S(8))),kpi('رسوم الشحن',n(S(10))+'<small>ج.م</small>'),kpi('الإعلانات',n(S(9))+'<small>ج.م</small>')]);
@@ -247,7 +247,7 @@ function prodSec(){var P0=D.prods||[];var cur=P0.filter(function(x){return M==='
  var days=[];cur.forEach(function(x){if(days.indexOf(x[0])<0)days.push(x[0])});days.sort().reverse();var td=days[0],yd=days[1];
  var dayAgg=function(d){return agg(cur.filter(function(x){return x[0]===d}))},T=dayAgg(td),Y=yd?dayAgg(yd):{};
  var rr=function(x){return (x.od+x.or)?x.or/(x.od+x.or):0},tone=function(v){return v>=0.10?'var(--red)':v>=0.05?'var(--amber)':'var(--teal)'};
- var h=head('المنتجات — '+esc(mlab()||'كل الشهور'),'مترتبة بقيمة اللي اتسلّم. المرتجع محسوب على طلبات نفس الفترة، عشان مرتجعات الشهر اللي فات متبوّظش الصورة.');
+ var h=head('المنتجات — '+esc(mlab()||'كل الشهور'),'مترتبة بقيمة اللي اتسلّم.');
  h+=grid('ملخص المنتجات',[kpi('قيمة المسلّم',n(tv)+'<small>ج.م</small>',n(tq)+' قطعة اتسلّمت'),kpi('الأكثر مبيعاً',L[0]?esc(L[0].n):'—',L[0]?n(L[0].d)+' قطعة · '+pc(sd(L[0].dv,tv))+' من المبيعات':''),kpi('قطع اتطلبت',n(to),'متوسط <span class="num">'+(to/days.length).toFixed(1)+'</span> قطعة في اليوم'),kpi('نسبة المرتجع',pc((tod+tr)?tr/(tod+tr):0),n(tr)+' قطعة رجعت من طلبات الفترة')]);
  var TL=Object.keys(T).map(function(k){return T[k]}).sort(function(a,b){return (b.o+b.d)-(a.o+a.d)}).slice(0,8);
  if(TL.length)h+=grid(dlab(td)+(yd?' مقارنة بـ '+dlab(yd):''),TL.map(function(x){var y=Y[x.n]||{o:0,d:0};var dd=x.o-y.o;return kpi(esc(x.n),n(x.o)+'<small>قطعة اتطلبت</small>','اتسلّم '+n(x.d)+' بـ '+n(x.dv)+' ج',yd?'<p class="d '+(dd>0?'up':dd<0?'dn':'flat')+'">'+(dd>0?'▲ ':dd<0?'▼ ':'')+(dd?n(Math.abs(dd))+' عن امبارح':'زي امبارح')+'</p>':'')}));
@@ -264,7 +264,7 @@ function invSec(){var I=D.inv;if(!I||!I.items||!I.t||I.t.cnt===undefined)return 
  var cov=function(x){var r=x.del/dn(x.cntAt);return r>0?x.avail/r:null},low=it.filter(function(x){var c=cov(x);return x.avail<=0||c!==null&&c<7}).sort(function(a,b){return (cov(a)||0)-(cov(b)||0)});
  var tone=function(c,a){return a<=0||c!==null&&c<7?'var(--red)':c!==null&&c<14?'var(--amber)':'var(--teal)'};
  var same=it.every(function(x){return dd(x.cntAt)===dd(I.start)}),res=T.res+T.resF;
- var h=head('المخزن — من آخر جرد'+(same?' يوم '+dlab(dd(I.start)):'')+' لحد النهارده','المتاح = آخر جرد فعلي + الوارد − اللي اتسلّم − اللي لسه مع شركة الشحن أو المندوب + اللي رجع ± التالف والتسوية. القيمة بأسعار البيع الأساسية.');
+ var h=head('المخزن من آخر جرد'+(same?' '+dlab(dd(I.start)):''),'المتاح = الجرد + الوارد − الخارج + المرتجع.');
  h+=grid('ملخص المخزن',[kpi('قيمة المخزن دلوقتي',n(T.vAvail)+'<small>ج.م</small>',n(T.avail)+' قطعة متاحة'),kpi('اتسلّم (بعد الخصم)',n(T.vDel)+'<small>ج.م</small>',n(T.del)+' قطعة في '+n(I.ord.del)+' طلب'),kpi('لسه برة (بعد الخصم)',n(T.vRes+T.vResF)+'<small>ج.م</small>',n(T.res)+' مع شركة الشحن و'+n(T.resF)+' مع المندوب'),kpi('قرب يخلص',n(low.length)+'<small>صنف</small>',low.length?low.slice(0,3).map(function(x){return esc(x.n)}).join('، '):'كل الأصناف تكفي أسبوع أو أكتر')]);
  h+=grid('الحركة من آخر جرد',[kpi('آخر جرد',n(T.vCnt)+'<small>ج.م</small>',n(T.cnt)+' قطعة'+(same?' يوم '+dlab(dd(I.start)):'')),kpi('الوارد',n(T.vIn)+'<small>ج.م</small>',n(T.in)+' قطعة'),kpi('رجع للمخزن',n(T.ret)+'<small>قطعة</small>',n(T.back)+' منهم من شحنات قبل الجرد'),kpi('فرق الجرد',ns(T.diffN)+'<small>قطعة</small>',T.diffN?ns(T.diffV)+' ج بين آخر جردين':'مفيش فرق بين آخر جردين')]);
  h+='<section class="sec"><div class="sh"><h2>الأصناف</h2><span class="sub" style="display:flex;gap:14px;font-size:13px"><span><span class="dm" style="color:var(--teal)"></span> يكفي أسبوعين أو أكتر</span><span><span class="dm" style="color:var(--amber)"></span> أسبوع لأسبوعين</span><span><span class="dm" style="color:var(--red)"></span> أقل من أسبوع</span></span></div><div class="tw"><table class="t iv"><thead><tr><th scope="col" class="st pin">الصنف</th><th scope="col" class="e">المتاح</th><th scope="col">يكفي</th><th scope="col" class="e">قيمة المتاح</th><th scope="col" style="width:14%">من القيمة</th><th scope="col" class="e">السعر</th><th scope="col" class="e">آخر جرد</th><th scope="col" class="e">الوارد</th><th scope="col" class="e">رجع</th><th scope="col" class="e">اتسلّم</th><th scope="col" class="e">قيمة اتسلّم</th><th scope="col" class="e">لسه برة</th><th scope="col" class="e">قيمة لسه برة</th><th scope="col" class="e">تالف/تسوية</th><th scope="col" class="e">فرق الجرد</th></tr></thead><tbody>'
@@ -347,7 +347,7 @@ function mkCards(S,mn,PS){var h='',rate=function(o){var c=o[2]+o[4]+o[5];return 
 // ===== تقرير المسوقين (25/11): صفحة منفصلة — الإحصائيات، تحليل الأداء، ميتا (الضغط بس)، وكل منتج بصرفه وعائده =====
 function mkRep(){if(!(D.mk||[]).length)return '<p class="msg">بيانات المسوقين لسه بتتجهز، ارجع بعد 5 دقايق</p>';
  var Z=mkSlice(),f=Z.f,e=Z.e,S=Z.S,mn=Z.mn;
- var h=head('تقرير المسوقين','أداء كريم وعساف جنب بعض لأي فترة: الإحصائيات، والتحليل، وأرقام ميتا، وكل منتج بصرفه وعائده.');
+ var h=head('تقرير المسوقين','كريم وعساف: الأداء، وميتا، وكل منتج.');
  h+=mkBar(f,e)+mkTot(Z)+mkCards(S,mn,mkPrevSlice(f,e).z.S)+mkVs(S,Z.L,f,e);
  // ميتا: اللي داسوا بس جنب الكل
  h+='<section class="sec"><div class="sh"><h2>ميتا مقابل الطلبات الحقيقية</h2><span class="sub">«من الضغط» = اللي داسوا على الإعلان واشتروا خلال 7 أيام</span></div><div class="tw"><table class="t"><thead><tr><th scope="col" class="pin">المسوق</th><th scope="col" class="e">طلبات حقيقية</th><th scope="col" class="e">ميتا من الضغط</th><th scope="col" class="e">عملاء مشتركين</th><th scope="col" class="e">ميتا الكل</th><th scope="col" class="e">شافوا بس</th></tr></thead><tbody>'
@@ -373,7 +373,7 @@ function mkRep(){if(!(D.mk||[]).length)return '<p class="msg">بيانات ال�
  return h}
 function mkSec(){var R=D.mk||[];if(!R.length)return '<p class="msg">بيانات المسوقين لسه بتتجهز، ارجع بعد 5 دقايق</p>';
  var Z=mkSlice(),f=Z.f,e=Z.e,L=Z.L,S=Z.S,AD=Z.AD,DY=Z.DY,T=Z.T,ks=Z.ks,mn=Z.mn;
- var h=head('المسوقين','كل طلب محسوب لمسوق واحد: آخر إعلان العميل داس عليه قبل ما يطلب. اتطلب بيوم الطلب، واتسلّم ورجع واتلغى بيوم ما حصل.');
+ var h=head('المسوقين','كل طلب لآخر إعلان العميل داس عليه.');
  h+=mkBar(f,e);
  var rate=function(o){var c=o[2]+o[4]+o[5];return c?o[2]/c:0},cost=function(o){return o[7]?n(o[7]/Math.max(o[2],1)):'—'};
  var ZP=mkPrevSlice(f,e).z;h+=mkTot(Z)+mkCards(S,mn,ZP.S);
